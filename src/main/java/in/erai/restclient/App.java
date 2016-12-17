@@ -22,7 +22,14 @@ public class App {
     public static void main(String[] args) throws SchedulerException {
 
         // specify the job' s details..
-        JobDetail job = JobBuilder.newJob(RestCallJob.class).withIdentity("restClient").build();
+        JobDetail job = JobBuilder.newJob(RestCallJob.class).withIdentity("restClient")
+                //.usingJobData("jobName", "restBasedImportUserJob")
+                //.usingJobData("appJobsLink", "http://localhost:8080/SpringBatchRestService/jobs/")
+              .usingJobData("jobName", "importUserJob")
+                .usingJobData("appJobsLink", "http://localhost:8080/spring-batch-admin-annotation/launch/")
+                .build();
+
+
         // specify the running period of the job
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(30).repeatForever()).build();
